@@ -18,12 +18,14 @@ func main() {
 	hook2, _ := github.New(github.Options.Secret("MyGitHubSuperSecretSecrect2...?"))
 
 	http.HandleFunc(path1, func(w http.ResponseWriter, r *http.Request) {
-		payload, err := hook1.Parse(r, github.ReleaseEvent, github.PullRequestEvent)
+		payload, err := hook1.Parse(r, github.ReleaseEvent, github.PullRequestEvent, github.PushEvent)
 		if err != nil {
+			fmt.Printf("Parse error: %s", err.Error())
 			if err == github.ErrEventNotFound {
 				// ok event wasn;t one of the ones asked to be parsed
 			}
 		}
+
 		switch payload.(type) {
 
 		case github.PushPayload:
