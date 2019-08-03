@@ -29,8 +29,11 @@ func main() {
 		switch payload.(type) {
 
 		case github.PushPayload:
-			pushevent := payload.(github.PushPayload)
-			fmt.Printf("hey some push thing happened: %+v", pushevent)
+			push := payload.(github.PushPayload)
+			fmt.Printf("commit %s authored by %v pushed @ %s",
+			push.Commits[0].ID[:7],
+				push.Commits[0].Author,
+				push.Commits[0].Timestamp)
 
 		case github.ReleasePayload:
 			release := payload.(github.ReleasePayload)
